@@ -1,8 +1,13 @@
-const express = require("express")
-const app = express()
-const bodyP = require("body-parser")
-const compiler = require("compilex")
+const express = require("express");
+const app = express();
+const bodyP = require("body-parser");
+const compiler = require("compilex");
+const cors = require("cors"); // Import the cors middleware
 const options = { stats: true }
+compiler.init(options);
+
+app.use(cors()); // Enable CORS for all routes
+
 compiler.init(options)
 app.use(bodyP.json())
 app.post("/compile", function (req, res) {
