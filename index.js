@@ -7,21 +7,20 @@ const cors = require("cors");
 const options = { stats: true };
 compiler.init(options);
 
-const allowCors = (fn) => async (req, res) => {
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*'); // Specify your allowed origin
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS, PATCH, DELETE, POST, PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+const allowedOrigins = ['https://mint-nft-80488.web.app'];
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  return await fn(req, res);
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Enable credentials (if needed)
 };
 
-app.use(allowCors); // Use the allowCors middleware
+app.use(cors(corsOptions));
 
 app.use(bodyP.json());
 app.post("/compile", function (req, res) {
