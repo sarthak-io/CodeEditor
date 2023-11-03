@@ -6,7 +6,10 @@ const cors = require("cors"); // Import the cors middleware
 const options = { stats: true }
 compiler.init(options);
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+    origin: 'http://127.0.0.1:5500', // Allow requests from your local development environment
+    methods: 'GET,POST', // Specify the allowed HTTP methods
+  }));
 
 compiler.init(options)
 app.use(bodyP.json())
