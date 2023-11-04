@@ -27,7 +27,7 @@ app.post("/compile", function (req, res) {
                         res.send(data);
                     }
                     else {
-                        res.send({ output: "error" })
+                        res.send({ output: "errorr" })
                     }
                 });
             }
