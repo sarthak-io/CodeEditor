@@ -6,21 +6,18 @@ const cors = require("cors");
 
 const options = { stats: true };
 compiler.init(options);
+app.get("/", function (req, res) {
+    compiler.flush(function () {
+        console.log("deleted")
+    })
+       // Manually specify the relative path to your 'index.html' file
+       const indexPath = 'index.html';
 
-const allowedOrigins = ['https://mint-nft-80488.web.app'];
+       res.sendFile(indexPath, { root: __dirname });
+    });
+   
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Enable credentials (if needed)
-};
 
-app.use(cors(corsOptions));
 
 app.use(bodyP.json());
 app.post("/compile", function (req, res) {

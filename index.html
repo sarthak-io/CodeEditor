@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <textarea id="code" rows="10" cols="50">print("Hello, World!")</textarea>
+    <button id="run">Run</button>
+    <div id="output"></div>
+
+    <script>
+        var output = document.getElementById("output");
+        var run = document.getElementById("run");
+        var codeTextarea = document.getElementById("code");
+
+        run.addEventListener("click", async function () {
+            var code = codeTextarea.value;
+
+            var data = {
+                code: code,
+                lang: "Python"
+            };
+
+            console.log(data);
+
+            var oData = await fetch("http://localhost:8000/compile", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            var d = await oData.json();
+            output.textContent = d.output;
+        });
+    </script>
+</body>
+</html>
